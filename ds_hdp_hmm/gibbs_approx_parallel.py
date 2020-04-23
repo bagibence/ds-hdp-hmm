@@ -9,7 +9,6 @@ import time
 from multiprocessing import Pool
 from functools import partial
 
-eps = 1e-6;
 
 def transform_var_poly(v0, v1, p):
     if p=='inf': # exponential decay
@@ -396,7 +395,7 @@ def sample_pi(n_mat, n_ft, alpha0, alpha0_init, beta_vec): ## first time point w
     return pi_bar, pi_init
 
 ## sample hyperparams alpha0, gamma0, rho0, rho1
-def sample_alpha(m_mat, n_mat, alpha0, m_init, n_ft, alpha0_init, alpha0_a_pri, alpha0_b_pri): ## first time point will definitely add one more table no matter what alpha is, so it won't affect alpha posterior
+def sample_alpha(m_mat, n_mat, alpha0, m_init, n_ft, alpha0_init, alpha0_a_pri, alpha0_b_pri, eps=1e-6): ## first time point will definitely add one more table no matter what alpha is, so it won't affect alpha posterior
     
     r_vec = [];
     tmp = n_mat.sum(axis=1);
@@ -420,7 +419,7 @@ def sample_alpha(m_mat, n_mat, alpha0, m_init, n_ft, alpha0_init, alpha0_a_pri, 
     
     return alpha0, alpha0_init #, r_vec, s_vec 
     
-def sample_gamma(K, m_mat, m_init, gamma0, gamma0_a_pri, gamma0_b_pri): ## first time point will affect gamma
+def sample_gamma(K, m_mat, m_init, gamma0, gamma0_a_pri, gamma0_b_pri, eps=1e-6): ## first time point will affect gamma
     
     num_tabs = m_mat.sum()+m_init.sum();
     eta = beta(gamma0+1, num_tabs);
